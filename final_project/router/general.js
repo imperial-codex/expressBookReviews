@@ -72,13 +72,17 @@ public_users.get('/title/:title',function (req, res) {
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
     const isbn  = req.params.isbn;
-    const review = booksJS[isbn].review;
-      
+    if (!booksJS[isbn]) {
+        return res.status(404).json({ message: "Book not found" });
+    }
+    
+    const review = booksJS[isbn].reviews;
+    
     if (review){
-      return res.status(200).send(JSON.stringify(review ,null,4)) //send the review as string if any where found 
+      return res.status(200).send(review) //send the review as string if any where found 
     }
   else{
-    return res.status(404).json({message:  + " not found"});}
+    return res.status(404).json({message:   " no review found "});}
 });
   
 
