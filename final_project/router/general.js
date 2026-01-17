@@ -15,7 +15,7 @@ public_users.post("/register", (req,res) => {
 public_users.get('/',function (req, res) {
   
   books = require('./booksdb.js'); //get the data stored as a JS object 
-  return res.status(200).send(JSON.stringify(books)); //send response with 200 status code for sucess with stringify for a formated output
+  return res.status(200).send(JSON.stringify(books,null,4)); //send response with 200 status code for sucess with stringify for a formated output
 });
 
 // Get book details based on ISBN
