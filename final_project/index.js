@@ -11,10 +11,17 @@ app.use(express.json());
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 app.use("/customer/auth/*", function auth(req,res,next){
-//Write the authenication mechanism here
+    if(req.session && req.authorization)//does the req contain the session and authorization fields
+        {
+            next();
+        }
+    else{
+        res.status(401).json({message :"please login"}); //set response status to 401 user side error with message 
+    }
+
 });
  
-const PORT =5000;
+const PORT = 5000;
 
 app.use("/customer", customer_routes);
 app.use("/", genl_routes);
