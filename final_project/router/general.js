@@ -7,13 +7,15 @@ const public_users = express.Router();
 
 public_users.post("/register", (req,res) => {
   //Write your code here
+
   return res.status(300).json({message: "Yet to be implemented"});
 });
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  
+  books = require('./booksdb.js'); //get the data stored as a JS object 
+  return res.status(200).send(JSON.stringify(books)); //send response with 200 status code for sucess with stringify for a formated output
 });
 
 // Get book details based on ISBN
