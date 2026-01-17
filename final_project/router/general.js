@@ -4,7 +4,7 @@ let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
-
+const booksJS = require('./booksdb.js'); //get the data stored as a JS object 
 public_users.post("/register", (req,res) => {
   //Write your code here
 
@@ -14,14 +14,20 @@ public_users.post("/register", (req,res) => {
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
   
-  books = require('./booksdb.js'); //get the data stored as a JS object 
-  return res.status(200).send(JSON.stringify(books,null,4)); //send response with 200 status code for sucess with stringify for a formated output
+  
+  return res.status(200).send(JSON.stringify(booksJS,null,4)); //send response with 200 status code for sucess with stringify for a formated output
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const isbn = req.params.isbn;
+  const book = booksJS[isbn];//store the book with the coresponding isbn
+  if(book){
+    res.status(200).send(JSON.stringify(book,null,4)) //return the book is it exists 
+  }
+  else{
+    res.status(404).json({message : 'book not found '});//return 404 status code with not found message 
+  }
  });
   
 // Get book details based on author
