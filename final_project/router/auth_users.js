@@ -44,7 +44,7 @@ regd_users.post("/login", (req, res) => {
             return res.status(500).json({ message: "session save failed" });
         }
 
-        
+
         return res.status(200).json({ message: "logged in" });
     });
 });
@@ -71,7 +71,27 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     books[isbn].reviews[username] = review;
 
     return res.status(200).json({ message: "review added" });
+}
+
+);
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    if (!(req.session && req.session.username)) {
+        return res.status(401).json({ message: 'please log in' });
+    }
+    const isbn = req.params.isbn;
+    const username = req.session.username;
+    const book = books[isbn];
+    if (!book) {
+        return res.status(404).json({ message: 'book not in list' });
+    }
+    if (!book.reviews[username]) {
+        return res.status(404).json({ message: "no review found for this user" });
+    }
+
+    delete book.reviews[username];
+    return res.status(200).json({ message: "review deleted" });
 });
+
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
