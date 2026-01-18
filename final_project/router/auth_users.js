@@ -18,6 +18,13 @@ for(const user of users){
 
 const authenticatedUser = (username,password)=>{ //returns boolean
 //write code to check if username and password match the one we have in records.
+const user = users.find(
+    u => u.username.toLowerCase() === username.toLowerCase());
+    // check password and username with least information reveal
+  if (!user || user.password !== password){
+    return False;
+    }
+    return True ; 
 }
 
 //only registered users can login
@@ -36,7 +43,7 @@ regd_users.post("/login", (req,res) => {
   
     
     // check password and username with least information reveal
-  if (!user || user.password !== password){
+  if (!authenticatedUser(user.username,user.password)){
     return res.status(401).json({message:"invalid credentials"});
     }
   //generate token
@@ -51,7 +58,9 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
+  if(req.session && req.session.username){
+    
+  }
   return res.status(300).json({message: "Yet to be implemented"});
 });
 
