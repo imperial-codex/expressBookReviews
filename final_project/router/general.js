@@ -3,7 +3,7 @@ const booksJS = require('./booksdb.js'); //get the data stored as a JS object
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-
+const axios = require('axios');
 
 
 public_users.post("/register", (req,res) => {
@@ -91,7 +91,17 @@ public_users.get('/review/:isbn',function (req, res) {
   else{
     return res.status(404).json({message:   " no review found "});}
 });
-  
+function getBooks(){
+    axios.get("http://localhost:5000/")
+    .then(response =>{
+        console.log("books in the store : ");
+        console.log(JSON.stringify(response.data, null, 4));
 
+})
+    .catch(error=>{
+        console.error("error fetching books" , error.message);
+    })
+}
 
+getBooks();
 module.exports.general = public_users;
