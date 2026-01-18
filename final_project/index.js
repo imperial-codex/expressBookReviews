@@ -11,7 +11,7 @@ app.use(express.json());
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 app.use("/customer/auth/*", function auth(req,res,next){
-    if(req.session && req.authorization)//does the req contain the session and authorization fields
+    if(req.session &&  req.session.username)//does the req contain the session and authorization fields
         {
             next();
         }
