@@ -1,20 +1,27 @@
 const express = require('express');
-let books = require("./booksdb.js");
+const booksJS = require('./booksdb.js'); //get the data stored as a JS object 
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
-const booksJS = require('./booksdb.js'); //get the data stored as a JS object 
-public_users.post("/register", (req,res) => {
-  //Write your code here
 
-  return res.status(300).json({message: "Yet to be implemented"});
+
+public_users.post("/register", (req,res) => {
+    const {username,password} = req.body;
+    if(!(username && password)){ //check if password and username are provided 
+        return res.status(400).json({ message: " username and password required " });
+    }
+    for(const user of users){//check if username already exists
+        if(username.toLowerCase() === user.username.toLowerCase()){
+            return res.status(409).json({ message: "Username already exists" });
+        }
+    }
+  users.push({username,password});//add user to list if all test are passed 
+  return res.status(201).json({message: "registration successful "});
 });
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  
-  
   return res.status(200).send(JSON.stringify(booksJS,null,4)); //send response with 200 status code for sucess with stringify for a formated output
 });
 
