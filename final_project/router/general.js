@@ -126,8 +126,22 @@ function getBookAUTHOR(author) {
             else { console.error("error : ", error.message); }
         })
 }
+function getBookTITLE(title){
+    axios.get(`http://localhost:5000/title/${title}`)
+    .then(response=>{
+        console.log(`fetching details for the book  : ${title}`, JSON.stringify(response.data, null, 4));
+    })
+    .catch(error => {
+        if (error.response) {
+            console.error("error : ", error.response.data);
+        }
+        else { console.error("error : ", error.message); }
+    })
+}
+
 //getBooks();
 //getBookISBN('5');
-getBookAUTHOR("Samuel Beckett");
+//getBookAUTHOR("Samue Beckett");
+getBookTITLE("One Thousand and One Nights")
 //console.log(Object.keys(booksJS))
 module.exports.general = public_users;
