@@ -108,13 +108,26 @@ function getBookISBN(isbn) {
             console.log("fetching details for book  ", isbn, ":\n", JSON.stringify(response.data, null, 4));
         })
         .catch(error => {
-            if(error.response){
-                console.error("error : " ,error.response.data);
-        }
-        else{console.error("error : ", error.message);}
-    })
+            if (error.response) {
+                console.error("error : ", error.response.data);
+            }
+            else { console.error("error : ", error.message); }
+        })
+}
+function getBookAUTHOR(author) {
+    axios.get(`http://localhost:5000/author/${author}`)
+        .then(response => {
+            console.log(`fetching details for books by : ${author}`, JSON.stringify(response.data, null, 4));
+        })
+        .catch(error => {
+            if (error.response) {
+                console.error("error : ", error.response.data);
+            }
+            else { console.error("error : ", error.message); }
+        })
 }
 //getBooks();
-getBookISBN('5');
-console.log(Object.keys(booksJS))
+//getBookISBN('5');
+getBookAUTHOR("Samuel Beckett");
+//console.log(Object.keys(booksJS))
 module.exports.general = public_users;
